@@ -1,13 +1,22 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, ActivityIndicator } from "react-native";
 import { RootNavigator } from "./navigation";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { defaultTheme } from "./themes/themes";
+import { useFonts } from "expo-font";
+import { AppLoading } from "./components/AppLoading";
 
 const ThemeContex = createContext();
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
   const themeContexValue = { currentTheme, setCurrentTheme };
+
+  let [fontsLoaded] = useFonts({
+    "font-1": require("./assets/fonts/JustAnotherHandRegular.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <ThemeContex.Provider value={themeContexValue}>
       <NavigationContainer theme={currentTheme}>

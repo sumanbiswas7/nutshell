@@ -33,9 +33,6 @@ export function Cart({ navigation, count }) {
 }
 const styles = StyleSheet.create({
   cart_container: {
-    position: "absolute",
-    top: 20,
-    right: 15,
     backgroundColor: "#000",
     width: 38,
     height: 38,
