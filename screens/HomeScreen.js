@@ -46,6 +46,7 @@ export default function HomeScreen({ navigation }) {
                 title={item.name}
                 description={item.description}
                 price={item.price}
+                navigation={navigation}
               />
             );
           }}

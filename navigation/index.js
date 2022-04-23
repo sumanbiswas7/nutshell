@@ -11,11 +11,12 @@ import FavouriteScreen from "../screens/FavouriteScreen";
 import CartScreen from "../screens/CartScreen";
 import MenuScreen from "../screens/MenuScreen";
 import { useTheme } from "@react-navigation/native";
+import { SingleDishScreen } from "../screens/SingleDishScreen";
 
 const Stack = createNativeStackNavigator();
 export function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
@@ -25,6 +26,11 @@ export function RootNavigator() {
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
+      />
+      <Stack.Screen
+        name="SingleDish"
+        component={SingleDishScreen}
+        options={{ animation: "fade_from_bottom" }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />

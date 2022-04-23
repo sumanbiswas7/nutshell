@@ -7,29 +7,38 @@ import { useState, useEffect } from "react";
 const cardSize = 150;
 const blankImage =
   "https://sumanbiswas-website.s3.ap-south-1.amazonaws.com/nutshell-image-temp/blank.png";
-export function DishCard({ title, description, image, price }) {
+export function DishCard({ title, description, image, price, navigation }) {
   const { colors } = useTheme();
   const [added, setAdded] = useState(false);
   const [dishTitle, setDishtitle] = useState("");
   const [dishDescription, setDishDescription] = useState("");
+
   useEffect(() => {
-    if (title.length > 15) {
-      setDishtitle(`${title.slice(0, 15)}...`);
-    } else {
-      setDishtitle(title);
-    }
-    if (description.length > 15) {
-      setDishDescription(`${description.slice(0, 16)}...`);
-    } else {
-      setDishDescription(description);
+    trimText();
+    function trimText() {
+      if (title.length > 15) {
+        setDishtitle(`${title.slice(0, 15)}...`);
+      } else {
+        setDishtitle(title);
+      }
+      if (description.length > 15) {
+        setDishDescription(`${description.slice(0, 16)}...`);
+      } else {
+        setDishDescription(description);
+      }
     }
   }, []);
   function handleAddClick() {
     setAdded((p) => !p);
   }
+
   return (
     <View style={styles.container}>
-      <View style={styles.bottom_container}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("SingleDish")}
+        activeOpacity={0.7}
+        style={styles.bottom_container}
+      >
         <Image
           source={{
             uri: image || blankImage,
@@ -50,7 +59,7 @@ export function DishCard({ title, description, image, price }) {
             <AntDesign name="plus" size={18} />
           )}
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
