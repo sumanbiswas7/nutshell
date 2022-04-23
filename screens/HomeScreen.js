@@ -1,10 +1,19 @@
-import { StyleSheet, View, Text, StatusBar, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  StatusBar,
+  Dimensions,
+  FlatList,
+} from "react-native";
 import { Cart } from "../components/Cart";
 import { StatusBar as ESB } from "expo-status-bar";
 import { useTheme } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { HeaderLogo } from "../components/HeaderLogo";
 import { SearchBox } from "../components/SearchBox";
+import { DishCard } from "../components/DishCard";
+import { dishes } from "../DATA";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
@@ -23,7 +32,24 @@ export default function HomeScreen({ navigation }) {
           </View>
           <SearchBox />
         </View>
-        <Text style={styles.title}>Home</Text>
+        <FlatList
+          data={dishes}
+          numColumns={2}
+          width={deviceWidth}
+          style={styles.flat_list}
+          justifyContent="center"
+          alignItems="center"
+          renderItem={({ item }) => {
+            return (
+              <DishCard
+                image={item.image}
+                title={item.name}
+                description={item.description}
+                price={item.price}
+              />
+            );
+          }}
+        />
       </View>
       <ESB backgroundColor={colors.accent} />
     </>
@@ -59,5 +85,8 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: "80%",
+  },
+  flat_list: {
+    marginTop: 145,
   },
 });

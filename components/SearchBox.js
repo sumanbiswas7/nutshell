@@ -6,7 +6,7 @@ export function SearchBox() {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="search dish"
+        placeholder="Search dish"
         placeholderTextColor={"rgba(0,0,0,0.4)"}
       />
     </View>
