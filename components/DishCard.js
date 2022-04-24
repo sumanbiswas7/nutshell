@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 const cardSize = 150;
 const blankImage =
   "https://sumanbiswas-website.s3.ap-south-1.amazonaws.com/nutshell-image-temp/blank.png";
-export function DishCard({ title, description, image, price, navigation }) {
+export function DishCard({ title, description, image, price, navigation, id }) {
   const { colors } = useTheme();
   const [added, setAdded] = useState(false);
   const [dishTitle, setDishtitle] = useState("");
@@ -35,7 +35,7 @@ export function DishCard({ title, description, image, price, navigation }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("SingleDish")}
+        onPress={() => navigation.navigate("SingleDish", { id })}
         activeOpacity={0.7}
         style={styles.bottom_container}
       >

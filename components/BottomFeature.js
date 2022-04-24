@@ -3,21 +3,12 @@ import { useState } from "react";
 import { useTheme } from "@react-navigation/native";
 
 const bottomFeatureSize = 140;
-const DUMMY_DATA = {
-  name: "Healthy Salad",
-  price: 129,
-  description: "super healthy salad",
-  image:
-    "https://loveincorporated.blob.core.windows.net/contentimages/gallery/d9e900e4-212e-4c3d-96d5-cb14a023c659-worlds-most-delicious-dishes.jpg",
-  type: "starter",
-  id: 4,
-};
-export function BottomFeature() {
+export function BottomFeature({ price }) {
   const [inCart, setInCart] = useState(true);
   const { colors } = useTheme();
   return (
     <View style={[styles.bottom_feature, { backgroundColor: colors.accent }]}>
-      <Text style={styles.bottom_price}>₹ {DUMMY_DATA.price}</Text>
+      <Text style={styles.bottom_price}>₹ {price}</Text>
       <View style={styles.line} />
       <TouchableOpacity
         style={styles.addtocart_btn}

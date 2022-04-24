@@ -13,12 +13,28 @@ import { useState, useEffect } from "react";
 import { HeaderLogo } from "../components/HeaderLogo";
 import { SearchBox } from "../components/SearchBox";
 import { DishCard } from "../components/DishCard";
-import { dishes } from "../DATA";
+import { gql, useQuery } from "@apollo/client";
+import { AppLoading } from "../components/AppLoading";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
 export default function HomeScreen({ navigation }) {
   const { colors } = useTheme();
+  const DISHES_QUERY = gql`
+    query {
+      dishes {
+        image
+        name
+        description
+        price
+        id
+      }
+    }
+  `;
+  const { loading, data, error } = useQuery(DISHES_QUERY);
+  if (loading) return <AppLoading />;
+  if (error) console.log(error);
+  const dishes = data?.dishes || [];
 
   return (
     <>
@@ -46,6 +62,7 @@ export default function HomeScreen({ navigation }) {
                 title={item.name}
                 description={item.description}
                 price={item.price}
+                id={item.id}
                 navigation={navigation}
               />
             );

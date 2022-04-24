@@ -14,25 +14,36 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { BottomFeature } from "../components/BottomFeature";
 import { AntDesign } from "@expo/vector-icons";
+import { gql, useQuery } from "@apollo/client";
+import { AppLoading } from "../components/AppLoading";
 
 const deviceWidth = Dimensions.get("window").width;
 const headerMarginTop = StatusBar.currentHeight;
 const favBoxSize = 35;
-const DUMMY_DATA = {
-  name: "Healthy Salad",
-  price: 129,
-  description: "super healthy salad",
-  image:
-    "https://loveincorporated.blob.core.windows.net/contentimages/gallery/d9e900e4-212e-4c3d-96d5-cb14a023c659-worlds-most-delicious-dishes.jpg",
-  type: "starter",
-  id: 4,
-};
-export function SingleDishScreen({ navigation }) {
+export function SingleDishScreen({ navigation, route }) {
   const { colors } = useTheme();
   const [isFav, setIsFav] = useState(false);
+  const { id } = route.params;
+  const SINGLE_DISH_QUERY = gql`
+    query ($dishId: ID!) {
+      getDish(id: $dishId) {
+        image
+        name
+        description
+        price
+      }
+    }
+  `;
   function handleFavClick() {
     setIsFav((p) => !p);
   }
+  const { loading, data, error } = useQuery(SINGLE_DISH_QUERY, {
+    variables: { dishId: id },
+  });
+  if (loading) return <AppLoading />;
+  if (error) console.log(error);
+  const dish = data?.getDish || [];
+
   return (
     <View style={styles.container}>
       <View style={[styles.header, { backgroundColor: colors.accent }]}>
@@ -46,7 +57,7 @@ export function SingleDishScreen({ navigation }) {
       <View style={styles.dish_image_container}>
         <Image
           style={styles.dish_image}
-          source={{ uri: DUMMY_DATA.image }}
+          source={{ uri: dish.image }}
           resizeMode={"cover"}
         />
         <LinearGradient
@@ -65,9 +76,9 @@ export function SingleDishScreen({ navigation }) {
           )}
         </TouchableOpacity>
       </View>
-      <Text style={styles.dish_name}>{DUMMY_DATA.name}</Text>
-      <Text style={styles.dish_description}>{DUMMY_DATA.description}</Text>
-      <BottomFeature />
+      <Text style={styles.dish_name}>{dish.name}</Text>
+      <Text style={styles.dish_description}>{dish.description}</Text>
+      <BottomFeature price={dish.price} />
     </View>
   );
 }
