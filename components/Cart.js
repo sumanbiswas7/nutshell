@@ -16,7 +16,7 @@ export function Cart({ navigation, count }) {
         color={"#fff"}
         style={{ marginRight: 2 }}
       />
-      {count && (
+      {count && count != 0 ? (
         <View
           style={[
             styles.cart_order_container,
@@ -27,7 +27,7 @@ export function Cart({ navigation, count }) {
             {count}
           </Text>
         </View>
-      )}
+      ) : null}
     </TouchableOpacity>
   );
 }

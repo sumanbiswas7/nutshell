@@ -7,10 +7,17 @@ import { useFonts } from "expo-font";
 import { AppLoading } from "./components/AppLoading";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-const ThemeContex = createContext();
+export const ThemeContex = createContext();
+export const CartContex = createContext();
+export const FavouriteContex = createContext();
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
+  const [cartData, setCartData] = useState([]);
+  const [favouriteData, setFavouriteData] = useState([]);
   const themeContexValue = { currentTheme, setCurrentTheme };
+  const cartContexvalue = { cartData, setCartData };
+  const favouriteContexValue = { favouriteData, setFavouriteData };
+
   let [fontsLoaded] = useFonts({
     "font-1": require("./assets/fonts/JustAnotherHandRegular.ttf"),
   });
@@ -18,15 +25,20 @@ export default function App() {
     return <AppLoading />;
   }
   const client = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({}),
     uri: "https://nutshell-server-api.herokuapp.com/",
   });
+
   return (
     <ApolloProvider client={client}>
       <ThemeContex.Provider value={themeContexValue}>
-        <NavigationContainer theme={currentTheme}>
-          <RootNavigator />
-        </NavigationContainer>
+        <CartContex.Provider value={cartContexvalue}>
+          <FavouriteContex.Provider value={favouriteContexValue}>
+            <NavigationContainer theme={currentTheme}>
+              <RootNavigator />
+            </NavigationContainer>
+          </FavouriteContex.Provider>
+        </CartContex.Provider>
       </ThemeContex.Provider>
     </ApolloProvider>
   );

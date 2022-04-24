@@ -9,17 +9,20 @@ import {
 import { Cart } from "../components/Cart";
 import { StatusBar as ESB } from "expo-status-bar";
 import { useTheme } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { HeaderLogo } from "../components/HeaderLogo";
 import { SearchBox } from "../components/SearchBox";
 import { DishCard } from "../components/DishCard";
 import { gql, useQuery } from "@apollo/client";
 import { AppLoading } from "../components/AppLoading";
+import { CartContex } from "../App";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
 export default function HomeScreen({ navigation }) {
   const { colors } = useTheme();
+
+  const { cartData } = useContext(CartContex);
   const DISHES_QUERY = gql`
     query {
       dishes {
@@ -31,6 +34,7 @@ export default function HomeScreen({ navigation }) {
       }
     }
   `;
+
   const { loading, data, error } = useQuery(DISHES_QUERY);
   if (loading) return <AppLoading />;
   if (error) console.log(error);
@@ -44,7 +48,7 @@ export default function HomeScreen({ navigation }) {
         >
           <View style={styles.header}>
             <HeaderLogo />
-            <Cart navigation={navigation} />
+            <Cart navigation={navigation} count={cartData.length} />
           </View>
           <SearchBox />
         </View>
@@ -64,6 +68,7 @@ export default function HomeScreen({ navigation }) {
                 price={item.price}
                 id={item.id}
                 navigation={navigation}
+                dish={item}
               />
             );
           }}

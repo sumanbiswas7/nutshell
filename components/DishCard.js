@@ -2,13 +2,23 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { CartContex } from "../App";
 
 const cardSize = 150;
 const blankImage =
   "https://sumanbiswas-website.s3.ap-south-1.amazonaws.com/nutshell-image-temp/blank.png";
-export function DishCard({ title, description, image, price, navigation, id }) {
+export function DishCard({
+  title,
+  description,
+  image,
+  price,
+  navigation,
+  id,
+  dish,
+}) {
   const { colors } = useTheme();
+  const { cartData, setCartData } = useContext(CartContex);
   const [added, setAdded] = useState(false);
   const [dishTitle, setDishtitle] = useState("");
   const [dishDescription, setDishDescription] = useState("");
@@ -30,6 +40,10 @@ export function DishCard({ title, description, image, price, navigation, id }) {
   }, []);
   function handleAddClick() {
     setAdded((p) => !p);
+    if (!added) {
+      setCartData([...cartData, dish]);
+    } else {
+    }
   }
 
   return (

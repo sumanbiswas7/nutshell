@@ -23,6 +23,7 @@ const favBoxSize = 35;
 export function SingleDishScreen({ navigation, route }) {
   const { colors } = useTheme();
   const [isFav, setIsFav] = useState(false);
+
   const { id } = route.params;
   const SINGLE_DISH_QUERY = gql`
     query ($dishId: ID!) {
