@@ -29,7 +29,15 @@ export default function HomeScreen({ navigation }) {
   const { homeData, setHomeData } = useContext(HomeContex);
   const { cartData } = useContext(CartContex);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [dishTypes, setDishTypes] = useState({
+    activeType: { id: 2, type: "Main" },
+    types: [
+      { id: 1, type: "Starter" },
+      { id: 2, type: "Main" },
+      { id: 3, type: "Drinks" },
+      { id: 4, type: "Dessert" },
+    ],
+  });
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
       setIsLoading(false);
@@ -37,6 +45,14 @@ export default function HomeScreen({ navigation }) {
     });
   }, []);
   const dishes = homeData;
+
+  function handleDishTypeClick(type, id) {
+    setDishTypes({ ...dishTypes, activeType: { id, type } });
+  }
+  function setClass(id) {
+    if (dishTypes.activeType?.id == id) return true;
+    else return false;
+  }
 
   if (isLoading) return <AppLoading />;
   return (
@@ -50,17 +66,23 @@ export default function HomeScreen({ navigation }) {
             <Cart navigation={navigation} count={cartData.length} />
           </View>
           <SearchBox />
-          <ScrollView
+          <FlatList
+            data={dishTypes.types}
             horizontal
             style={styles.dish_type_list}
-            alignItems="center"
             justifyContent="center"
-          >
-            <DishTypeButton title="Starter" />
-            <DishTypeButton title="Main" />
-            <DishTypeButton title="Drinks" />
-            <DishTypeButton title="Dessert" />
-          </ScrollView>
+            alignItems="center"
+            renderItem={({ item }) => {
+              return (
+                <DishTypeButton
+                  title={item.type}
+                  onPress={handleDishTypeClick}
+                  id={item.id}
+                  active={setClass(item.id)}
+                />
+              );
+            }}
+          />
         </View>
         <FlatList
           data={dishes}
