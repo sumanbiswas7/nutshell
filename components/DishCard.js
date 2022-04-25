@@ -43,13 +43,15 @@ export function DishCard({
     if (!added) {
       setCartData([...cartData, dish]);
     } else {
+      const newCartData = cartData.filter((dish) => dish.id != id);
+      setCartData(newCartData);
     }
   }
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("SingleDish", { id })}
+        onPress={() => navigation.navigate("SingleDish", { dish, setAdded })}
         activeOpacity={0.7}
         style={styles.bottom_container}
       >

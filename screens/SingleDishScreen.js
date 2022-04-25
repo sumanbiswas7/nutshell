@@ -11,39 +11,34 @@ import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
 import { BottomFeature } from "../components/BottomFeature";
 import { AntDesign } from "@expo/vector-icons";
-import { gql, useQuery } from "@apollo/client";
-import { AppLoading } from "../components/AppLoading";
+import { useEffect, useContext, useState } from "react";
+import { CartContex } from "../App";
 
 const deviceWidth = Dimensions.get("window").width;
 const headerMarginTop = StatusBar.currentHeight;
 const favBoxSize = 35;
 export function SingleDishScreen({ navigation, route }) {
+  const DISH = route.params.dish;
+  const setAdded = route.params.setAdded;
   const { colors } = useTheme();
+  const { cartData } = useContext(CartContex);
   const [isFav, setIsFav] = useState(false);
+  const [dish, setDish] = useState(DISH);
+  const [isInCart, setIsInCart] = useState(false);
 
-  const { id } = route.params;
-  const SINGLE_DISH_QUERY = gql`
-    query ($dishId: ID!) {
-      getDish(id: $dishId) {
-        image
-        name
-        description
-        price
+  useEffect(() => {
+    cartData.map((d) => {
+      if (d.id == dish.id) {
+        setIsInCart(true);
       }
-    }
-  `;
+    });
+  }, []);
+
   function handleFavClick() {
     setIsFav((p) => !p);
   }
-  const { loading, data, error } = useQuery(SINGLE_DISH_QUERY, {
-    variables: { dishId: id },
-  });
-  if (loading) return <AppLoading />;
-  if (error) console.log(error);
-  const dish = data?.getDish || [];
 
   return (
     <View style={styles.container}>
@@ -79,7 +74,13 @@ export function SingleDishScreen({ navigation, route }) {
       </View>
       <Text style={styles.dish_name}>{dish.name}</Text>
       <Text style={styles.dish_description}>{dish.description}</Text>
-      <BottomFeature price={dish.price} />
+      <BottomFeature
+        price={dish.price}
+        isInCart={isInCart}
+        dish={dish}
+        setIsInCart={setIsInCart}
+        setAdded={setAdded}
+      />
     </View>
   );
 }

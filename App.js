@@ -5,17 +5,20 @@ import { NavigationContainer } from "@react-navigation/native";
 import { defaultTheme } from "./themes/themes";
 import { useFonts } from "expo-font";
 import { AppLoading } from "./components/AppLoading";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 export const ThemeContex = createContext();
 export const CartContex = createContext();
+export const HomeContex = createContext();
 export const FavouriteContex = createContext();
+
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
   const [cartData, setCartData] = useState([]);
+  const [homeData, setHomeData] = useState([]);
   const [favouriteData, setFavouriteData] = useState([]);
   const themeContexValue = { currentTheme, setCurrentTheme };
   const cartContexvalue = { cartData, setCartData };
+  const homeContexValue = { homeData, setHomeData };
   const favouriteContexValue = { favouriteData, setFavouriteData };
 
   let [fontsLoaded] = useFonts({
@@ -24,14 +27,10 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  const client = new ApolloClient({
-    cache: new InMemoryCache({}),
-    uri: "https://nutshell-server-api.herokuapp.com/",
-  });
 
   return (
-    <ApolloProvider client={client}>
-      <ThemeContex.Provider value={themeContexValue}>
+    <ThemeContex.Provider value={themeContexValue}>
+      <HomeContex.Provider value={homeContexValue}>
         <CartContex.Provider value={cartContexvalue}>
           <FavouriteContex.Provider value={favouriteContexValue}>
             <NavigationContainer theme={currentTheme}>
@@ -39,8 +38,8 @@ export default function App() {
             </NavigationContainer>
           </FavouriteContex.Provider>
         </CartContex.Provider>
-      </ThemeContex.Provider>
-    </ApolloProvider>
+      </HomeContex.Provider>
+    </ThemeContex.Provider>
   );
 }
 

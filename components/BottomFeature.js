@@ -1,21 +1,38 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useTheme } from "@react-navigation/native";
+import { CartContex } from "../App";
 
 const bottomFeatureSize = 140;
-export function BottomFeature({ price }) {
-  const [inCart, setInCart] = useState(true);
+export function BottomFeature({
+  price,
+  isInCart,
+  dish,
+  setIsInCart,
+  setAdded,
+}) {
   const { colors } = useTheme();
+  const { cartData, setCartData } = useContext(CartContex);
+
+  function handleAddToCart() {
+    setIsInCart((p) => !p);
+    setAdded((p) => !p);
+    if (isInCart) {
+      const newCartData = cartData.filter((d) => d.id != dish.id);
+      setCartData(newCartData);
+    } else {
+      const newCartData = [...cartData, dish];
+      setCartData(newCartData);
+    }
+  }
+
   return (
     <View style={[styles.bottom_feature, { backgroundColor: colors.accent }]}>
       <Text style={styles.bottom_price}>₹ {price}</Text>
       <View style={styles.line} />
-      <TouchableOpacity
-        style={styles.addtocart_btn}
-        onPress={() => setInCart((p) => !p)}
-      >
+      <TouchableOpacity style={styles.addtocart_btn} onPress={handleAddToCart}>
         <Text style={styles.bottom_addToCart}>
-          {inCart ? "Add to Cart" : "Remove "}
+          {!isInCart ? "Add to Cart" : "Remove "}
         </Text>
       </TouchableOpacity>
     </View>

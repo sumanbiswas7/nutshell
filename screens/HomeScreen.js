@@ -13,33 +13,28 @@ import { useState, useEffect, useContext } from "react";
 import { HeaderLogo } from "../components/HeaderLogo";
 import { SearchBox } from "../components/SearchBox";
 import { DishCard } from "../components/DishCard";
-import { gql, useQuery } from "@apollo/client";
 import { AppLoading } from "../components/AppLoading";
-import { CartContex } from "../App";
+import { CartContex, HomeContex } from "../App";
+import request from "graphql-request";
+import { DISHES_QUERY, client } from "../hooks/useRequest";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
 export default function HomeScreen({ navigation }) {
   const { colors } = useTheme();
-
+  const { homeData, setHomeData } = useContext(HomeContex);
   const { cartData } = useContext(CartContex);
-  const DISHES_QUERY = gql`
-    query {
-      dishes {
-        image
-        name
-        description
-        price
-        id
-      }
-    }
-  `;
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { loading, data, error } = useQuery(DISHES_QUERY);
-  if (loading) return <AppLoading />;
-  if (error) console.log(error);
-  const dishes = data?.dishes || [];
+  useEffect(() => {
+    client.request(DISHES_QUERY).then((data) => {
+      setIsLoading(false);
+      setHomeData(data.dishes);
+    });
+  }, []);
+  const dishes = homeData;
 
+  if (isLoading) return <AppLoading />;
   return (
     <>
       <View style={styles.container}>

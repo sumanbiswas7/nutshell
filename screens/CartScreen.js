@@ -1,7 +1,15 @@
 import { StyleSheet, Text, View, StatusBar } from "react-native";
+import { useContext, useEffect } from "react";
+import { CartContex } from "../App";
 
 const headerMarginTop = StatusBar.currentHeight;
 export default function CartScreen({ navigation }) {
+  const { cartData } = useContext(CartContex);
+
+  useEffect(() => {
+    console.log(cartData);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cart</Text>
