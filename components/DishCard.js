@@ -25,6 +25,7 @@ export function DishCard({
 
   useEffect(() => {
     trimText();
+    setFirstAdded();
     function trimText() {
       if (title.length > 15) {
         setDishtitle(`${title.slice(0, 15)}...`);
@@ -36,6 +37,11 @@ export function DishCard({
       } else {
         setDishDescription(description);
       }
+    }
+    function setFirstAdded() {
+      cartData.map((dish) => {
+        if (dish.id == id) setAdded(true);
+      });
     }
   }, []);
   function handleAddClick() {

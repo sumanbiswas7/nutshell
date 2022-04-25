@@ -29,6 +29,7 @@ export default function HomeScreen({ navigation }) {
   const { homeData, setHomeData } = useContext(HomeContex);
   const { cartData } = useContext(CartContex);
   const [isLoading, setIsLoading] = useState(true);
+  const [dishesByType, setDishesByType] = useState([]);
   const [dishTypes, setDishTypes] = useState({
     activeType: { id: 2, type: "Main" },
     types: [
@@ -40,14 +41,19 @@ export default function HomeScreen({ navigation }) {
   });
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
-      setIsLoading(false);
       setHomeData(data.dishes);
+      const filterByTypeArr = data.dishes.filter((dish) => dish.type == "main");
+      setDishesByType(filterByTypeArr);
+      setIsLoading(false);
     });
   }, []);
-  const dishes = homeData;
 
   function handleDishTypeClick(type, id) {
     setDishTypes({ ...dishTypes, activeType: { id, type } });
+    const filterByTypeArr = homeData.filter(
+      (dish) => dish.type == type.toLowerCase()
+    );
+    setDishesByType(filterByTypeArr);
   }
   function setClass(id) {
     if (dishTypes.activeType?.id == id) return true;
@@ -85,7 +91,7 @@ export default function HomeScreen({ navigation }) {
           />
         </View>
         <FlatList
-          data={dishes}
+          data={dishesByType}
           numColumns={2}
           width={deviceWidth}
           style={styles.flat_list}

@@ -11,6 +11,7 @@ export const DISHES_QUERY = gql`
       description
       price
       id
+      type
     }
   }
 `;
