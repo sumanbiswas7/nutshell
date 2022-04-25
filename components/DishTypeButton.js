@@ -2,26 +2,24 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { useState } from "react";
 
 export function DishTypeButton({ title }) {
-  const [isClicked, setIsClicked] = useState(false);
+  const [activeBtn, setActiveBtn] = useState({
+    active: null,
+    items: ["Starter", "Main", "Desert", "Drink"],
+  });
 
   function handleClick(title) {
-    console.log(`${title} Clicked`);
-    setIsClicked((p) => !p);
+    setActiveBtn({ ...activeBtn, active: title });
+    if (activeBtn.active == title) {
+      console.log(activeBtn);
+    }
   }
 
   return (
     <TouchableOpacity
       onPress={() => handleClick(title)}
-      style={[
-        styles.dish_type_btn,
-        { backgroundColor: isClicked ? "#000" : "#fff" },
-      ]}
+      style={[styles.dish_type_btn]}
     >
-      <Text
-        style={[styles.dish_type_text, { color: isClicked ? "#FFF" : "#000" }]}
-      >
-        {title}
-      </Text>
+      <Text style={[styles.dish_type_text]}>{title}</Text>
     </TouchableOpacity>
   );
 }

@@ -5,8 +5,7 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
-  SectionList,
-  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Cart } from "../components/Cart";
 import { StatusBar as ESB } from "expo-status-bar";
@@ -17,7 +16,6 @@ import { SearchBox } from "../components/SearchBox";
 import { DishCard } from "../components/DishCard";
 import { AppLoading } from "../components/AppLoading";
 import { CartContex, HomeContex } from "../App";
-import request from "graphql-request";
 import { DISHES_QUERY, client } from "../hooks/useRequest";
 import { DishTypeButton } from "../components/DishTypeButton";
 
@@ -31,13 +29,6 @@ export default function HomeScreen({ navigation }) {
   const { homeData, setHomeData } = useContext(HomeContex);
   const { cartData } = useContext(CartContex);
   const [isLoading, setIsLoading] = useState(true);
-  const TYPES = [
-    {
-      title: "Dish Types",
-      data: ["Starter", "Main", "Desert", "Drink"],
-    },
-  ];
-  const [menuTypes, setMenuTypes] = useState(TYPES);
 
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
@@ -59,17 +50,17 @@ export default function HomeScreen({ navigation }) {
             <Cart navigation={navigation} count={cartData.length} />
           </View>
           <SearchBox />
-          <SectionList
+          <ScrollView
             horizontal
-            showsHorizontalScrollIndicator={false}
-            justifyContent="center"
-            alignItems="center"
             style={styles.dish_type_list}
-            sections={menuTypes}
-            renderItem={({ item }) => {
-              return <DishTypeButton title={item} />;
-            }}
-          />
+            alignItems="center"
+            justifyContent="center"
+          >
+            <DishTypeButton title="Starter" />
+            <DishTypeButton title="Main" />
+            <DishTypeButton title="Drinks" />
+            <DishTypeButton title="Dessert" />
+          </ScrollView>
         </View>
         <FlatList
           data={dishes}
