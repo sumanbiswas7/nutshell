@@ -32,7 +32,7 @@ export function DishCard({
         setDishtitle(title);
       }
       if (description.length > 15) {
-        setDishDescription(`${description.slice(0, 16)}...`);
+        setDishDescription(`${description.slice(0, 15)}...`);
       } else {
         setDishDescription(description);
       }

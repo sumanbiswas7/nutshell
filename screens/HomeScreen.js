@@ -5,6 +5,8 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
+  SectionList,
+  TouchableOpacity,
 } from "react-native";
 import { Cart } from "../components/Cart";
 import { StatusBar as ESB } from "expo-status-bar";
@@ -17,14 +19,25 @@ import { AppLoading } from "../components/AppLoading";
 import { CartContex, HomeContex } from "../App";
 import request from "graphql-request";
 import { DISHES_QUERY, client } from "../hooks/useRequest";
+import { DishTypeButton } from "../components/DishTypeButton";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
+const headerHeight = 180;
+const flatListHeight = deviceHeight - (60 + headerHeight + headerMarginTop);
 export default function HomeScreen({ navigation }) {
   const { colors } = useTheme();
   const { homeData, setHomeData } = useContext(HomeContex);
   const { cartData } = useContext(CartContex);
   const [isLoading, setIsLoading] = useState(true);
+  const TYPES = [
+    {
+      title: "Dish Types",
+      data: ["Starter", "Main", "Desert", "Drink"],
+    },
+  ];
+  const [menuTypes, setMenuTypes] = useState(TYPES);
 
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
@@ -46,13 +59,23 @@ export default function HomeScreen({ navigation }) {
             <Cart navigation={navigation} count={cartData.length} />
           </View>
           <SearchBox />
+          <SectionList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            justifyContent="center"
+            alignItems="center"
+            style={styles.dish_type_list}
+            sections={menuTypes}
+            renderItem={({ item }) => {
+              return <DishTypeButton title={item} />;
+            }}
+          />
         </View>
         <FlatList
           data={dishes}
           numColumns={2}
           width={deviceWidth}
           style={styles.flat_list}
-          justifyContent="center"
           alignItems="center"
           renderItem={({ item }) => {
             return (
@@ -79,14 +102,14 @@ const styles = StyleSheet.create({
     marginTop: headerMarginTop,
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   header_container: {
     top: 0,
     position: "absolute",
     width: deviceWidth,
-    paddingTop: 30,
-    paddingBottom: 10,
+    paddingTop: 10,
+    height: headerHeight,
   },
   header: {
     width: deviceWidth,
@@ -105,6 +128,12 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   flat_list: {
-    marginTop: 145,
+    height: flatListHeight,
+    flexGrow: 0,
+  },
+  dish_type_list: {
+    width: deviceWidth,
+    backgroundColor: "#FFF",
+    paddingVertical: 10,
   },
 });

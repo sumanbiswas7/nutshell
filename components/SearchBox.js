@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    width: deviceWidth - 40,
-    paddingTop: 10,
+    width: deviceWidth,
     paddingBottom: 5,
+    paddingLeft: 20,
+    marginTop: 10,
     borderBottomColor: "rgba(0,0,0,0.4)",
     borderBottomWidth: 1,
     fontSize: 17,
