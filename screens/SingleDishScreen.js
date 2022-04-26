@@ -12,16 +12,16 @@ import { LinearGradient } from "expo-linear-gradient";
 import { BottomFeature } from "../components/BottomFeature";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useContext, useState } from "react";
-import { CartContex } from "../App";
+import { CartContex, FavouriteContex } from "../App";
 
 const deviceWidth = Dimensions.get("window").width;
-const headerMarginTop = StatusBar.currentHeight;
 const favBoxSize = 35;
 export function SingleDishScreen({ navigation, route }) {
   const DISH = route.params.dish;
   const setAdded = route.params.setAdded;
   const { colors } = useTheme();
   const { cartData } = useContext(CartContex);
+  const { favouriteData, setFavouriteData } = useContext(FavouriteContex);
   const [isFav, setIsFav] = useState(false);
   const [dish, setDish] = useState(DISH);
   const [isInCart, setIsInCart] = useState(false);
@@ -32,10 +32,21 @@ export function SingleDishScreen({ navigation, route }) {
         setIsInCart(true);
       }
     });
+    favouriteData.map((d) => {
+      if (d.id == dish.id) {
+        setIsFav(true);
+      }
+    });
   }, []);
 
   function handleFavClick() {
     setIsFav((p) => !p);
+    if (!isFav) {
+      setFavouriteData([...favouriteData, dish]);
+    } else {
+      const removeFromFavArr = favouriteData.filter((d) => d.id != dish.id);
+      setFavouriteData(removeFromFavArr);
+    }
   }
 
   return (
