@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { BottomFeature } from "../components/BottomFeature";
@@ -42,14 +40,6 @@ export function SingleDishScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.header, { backgroundColor: colors.accent }]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back-sharp" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Entypo name="dots-three-vertical" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
       <View style={styles.dish_image_container}>
         <Image
           style={styles.dish_image}
@@ -72,8 +62,10 @@ export function SingleDishScreen({ navigation, route }) {
           )}
         </TouchableOpacity>
       </View>
-      <Text style={styles.dish_name}>{dish.name}</Text>
-      <Text style={styles.dish_description}>{dish.description}</Text>
+      <View style={styles.info_container}>
+        <Text style={styles.dish_name}>{dish.name}</Text>
+        <Text style={styles.dish_description}>{dish.description}</Text>
+      </View>
       <BottomFeature
         price={dish.price}
         isInCart={isInCart}
@@ -89,21 +81,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: headerMarginTop,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: deviceWidth,
-    paddingHorizontal: 20,
-    position: "absolute",
-    top: 0,
-    height: 60,
   },
   dish_image_container: {
     position: "absolute",
-    top: 60,
+    top: 0,
   },
   dish_image: {
     width: deviceWidth,
@@ -115,22 +96,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
   },
+  info_container: {
+    position: "absolute",
+    top: 330,
+  },
   dish_name: {
     width: deviceWidth,
     paddingHorizontal: 20,
     fontSize: 25,
-    // marginTop: 50,
     marginBottom: 10,
-    top: 360 + 30,
-    position: "absolute",
   },
   dish_description: {
     width: deviceWidth,
     paddingHorizontal: 20,
     fontSize: 17,
     color: "#595959",
-    top: 360 + 70,
-    position: "absolute",
   },
   fav_box: {
     width: favBoxSize,

@@ -15,6 +15,7 @@ import { SingleDishScreen } from "../screens/SingleDishScreen";
 
 const Stack = createNativeStackNavigator();
 export function RootNavigator() {
+  const { colors } = useTheme();
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -30,7 +31,14 @@ export function RootNavigator() {
       <Stack.Screen
         name="SingleDish"
         component={SingleDishScreen}
-        options={{ animation: "fade_from_bottom" }}
+        options={{
+          animation: "fade_from_bottom",
+          headerShown: true,
+          title: "",
+          headerStyle: {
+            backgroundColor: colors.accent,
+          },
+        }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
