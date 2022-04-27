@@ -81,6 +81,7 @@ export default function HomeScreen({ navigation }) {
             data={dishTypes.types}
             horizontal
             style={styles.dish_type_list}
+            showsHorizontalScrollIndicator={false}
             justifyContent="center"
             alignItems="center"
             renderItem={({ item }) => {

@@ -12,8 +12,11 @@ const deviceWidth = Dimensions.get("window").width;
 const searchBoxWidth = deviceWidth - 80;
 const searchBoxHeight = 42;
 
-export function SearchBox() {
+export function SearchBox({ searchInput }) {
   const { colors } = useTheme();
+  function handleTextChange(text) {
+    searchInput(text);
+  }
   return (
     <View style={styles.container}>
       <TextInput
@@ -21,6 +24,7 @@ export function SearchBox() {
         placeholder="Search dish"
         placeholderTextColor={"rgba(0,0,0,0.4)"}
         autoFocus
+        onChangeText={handleTextChange}
       />
       <TouchableOpacity activeOpacity={0.5} style={[styles.search_btn]}>
         <AntDesign
@@ -34,6 +38,7 @@ export function SearchBox() {
 }
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
