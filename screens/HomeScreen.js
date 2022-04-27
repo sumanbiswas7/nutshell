@@ -71,7 +71,12 @@ export default function HomeScreen({ navigation }) {
             <HeaderLogo />
             <Cart navigation={navigation} count={cartData.length} />
           </View>
-          <SearchBox />
+          <Text
+            onPress={() => navigation.navigate("Search")}
+            style={styles.search}
+          >
+            Search Dish
+          </Text>
           <FlatList
             data={dishTypes.types}
             horizontal
@@ -95,7 +100,7 @@ export default function HomeScreen({ navigation }) {
           numColumns={2}
           width={deviceWidth}
           style={styles.flat_list}
-          alignItems="center"
+          alignItems={dishesByType.length > 1 ? "center" : "flex-start"}
           renderItem={({ item }) => {
             return (
               <DishCard
@@ -137,6 +142,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
   },
+  search: {
+    width: deviceWidth,
+    paddingBottom: 5,
+    paddingLeft: 20,
+    marginTop: 10,
+    borderBottomColor: "rgba(0,0,0,0.4)",
+    color: "rgba(0,0,0,0.4)",
+    borderBottomWidth: 1,
+    fontSize: 17,
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
@@ -149,6 +164,7 @@ const styles = StyleSheet.create({
   flat_list: {
     height: flatListHeight,
     flexGrow: 0,
+    paddingHorizontal: 20,
   },
   dish_type_list: {
     width: deviceWidth,

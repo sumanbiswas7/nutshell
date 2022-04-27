@@ -12,6 +12,7 @@ import CartScreen from "../screens/CartScreen";
 import MenuScreen from "../screens/MenuScreen";
 import { useTheme } from "@react-navigation/native";
 import { SingleDishScreen } from "../screens/SingleDishScreen";
+import SearchScreen from "../screens/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 export function RootNavigator() {
@@ -31,6 +32,18 @@ export function RootNavigator() {
       <Stack.Screen
         name="SingleDish"
         component={SingleDishScreen}
+        options={{
+          animation: "fade_from_bottom",
+          headerShown: true,
+          title: "",
+          headerStyle: {
+            backgroundColor: colors.accent,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={SearchScreen}
         options={{
           animation: "fade_from_bottom",
           headerShown: true,
