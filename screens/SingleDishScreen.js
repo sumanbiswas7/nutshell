@@ -13,6 +13,7 @@ import { BottomFeature } from "../components/BottomFeature";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useContext, useState } from "react";
 import { CartContex, FavouriteContex } from "../App";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const deviceWidth = Dimensions.get("window").width;
 const favBoxSize = 35;
@@ -39,13 +40,33 @@ export function SingleDishScreen({ navigation, route }) {
     });
   }, []);
 
-  function handleFavClick() {
+  async function handleFavClick() {
     setIsFav((p) => !p);
     if (!isFav) {
-      setFavouriteData([...favouriteData, dish]);
+      const addInFavArr = [...favouriteData, dish];
+      setFavouriteData(addInFavArr);
+
+      const storageObj = {};
+      addInFavArr.forEach((d) => (storageObj[d.id] = true));
+
+      try {
+        const jsonValue = JSON.stringify(storageObj);
+        await AsyncStorage.setItem("favourites", jsonValue);
+      } catch (e) {
+        console.log(`Setting Local Storage Err - ${e}`);
+      }
     } else {
       const removeFromFavArr = favouriteData.filter((d) => d.id != dish.id);
       setFavouriteData(removeFromFavArr);
+
+      const storageObj = {};
+      removeFromFavArr.forEach((d) => (storageObj[d.id] = true));
+      try {
+        const jsonValue = JSON.stringify(storageObj);
+        await AsyncStorage.setItem("favourites", jsonValue);
+      } catch (e) {
+        console.log(`Setting Local Storage Err - ${e}`);
+      }
     }
   }
 

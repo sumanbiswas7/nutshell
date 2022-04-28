@@ -117,6 +117,11 @@ function BottomTabNavigator() {
             <AntDesign name="staro" size={25} color={color} />
           ),
           tabBarLabel: () => null,
+          headerShown: true,
+          title: "Favourites",
+          headerStyle: {
+            backgroundColor: colors.accent,
+          },
         }}
       />
       <BottomTab.Screen

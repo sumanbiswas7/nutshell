@@ -15,9 +15,10 @@ import { HeaderLogo } from "../components/HeaderLogo";
 import { SearchBox } from "../components/SearchBox";
 import { DishCard } from "../components/DishCard";
 import { AppLoading } from "../components/AppLoading";
-import { CartContex, HomeContex } from "../App";
+import { CartContex, FavouriteContex, HomeContex } from "../App";
 import { DISHES_QUERY, client } from "../hooks/useRequest";
 import { DishTypeButton } from "../components/DishTypeButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
@@ -28,6 +29,7 @@ export default function HomeScreen({ navigation }) {
   const { colors } = useTheme();
   const { homeData, setHomeData } = useContext(HomeContex);
   const { cartData } = useContext(CartContex);
+  const { setFavouriteData } = useContext(FavouriteContex);
   const [isLoading, setIsLoading] = useState(true);
   const [dishesByType, setDishesByType] = useState([]);
   const [dishTypes, setDishTypes] = useState({
@@ -47,6 +49,24 @@ export default function HomeScreen({ navigation }) {
       setIsLoading(false);
     });
   }, []);
+  useEffect(() => {
+    setInitialFavData();
+    async function setInitialFavData() {
+      try {
+        const jsonValue = await AsyncStorage.getItem("favourites");
+        const res = jsonValue != null ? JSON.parse(jsonValue) : null;
+        const initialFavArr = [];
+        homeData.forEach((dish) => {
+          if (res[dish.id]) {
+            initialFavArr.push(dish);
+          }
+        });
+        setFavouriteData(initialFavArr);
+      } catch (e) {
+        console.log(`Reading Local Storage Err - ${e}`);
+      }
+    }
+  }, [isLoading]);
 
   function handleDishTypeClick(type, id) {
     setDishTypes({ ...dishTypes, activeType: { id, type } });
