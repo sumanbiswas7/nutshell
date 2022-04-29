@@ -139,11 +139,15 @@ function BottomTabNavigator() {
         name="menu"
         component={MenuScreen}
         options={{
-          title: "Menu",
+          title: "",
           tabBarIcon: ({ color }) => (
             <Entypo name="menu" size={30} color={color} />
           ),
           tabBarLabel: () => null,
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.accent,
+          },
         }}
       />
     </BottomTab.Navigator>
