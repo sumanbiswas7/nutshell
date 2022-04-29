@@ -25,7 +25,6 @@ export function DishCard({
 
   useEffect(() => {
     trimText();
-    setFirstAdded();
     function trimText() {
       if (title.length > 15) {
         setDishtitle(`${title.slice(0, 15)}...`);
@@ -38,19 +37,26 @@ export function DishCard({
         setDishDescription(description);
       }
     }
+  }, []);
+  useEffect(() => {
+    setFirstAdded();
     function setFirstAdded() {
       cartData.map((dish) => {
         if (dish.id == id) setAdded(true);
       });
     }
-  }, []);
+  }, [cartData]);
+
   function handleAddClick() {
     setAdded((p) => !p);
-    if (!added) {
-      setCartData([...cartData, dish]);
-    } else {
-      const newCartData = cartData.filter((dish) => dish.id != id);
-      setCartData(newCartData);
+    changeDataOnClick();
+    function changeDataOnClick() {
+      if (!added) {
+        setCartData([...cartData, dish]);
+      } else {
+        const newCartData = cartData.filter((dish) => dish.id != id);
+        setCartData(newCartData);
+      }
     }
   }
 

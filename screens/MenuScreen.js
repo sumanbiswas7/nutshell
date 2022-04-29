@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
-  Dimensions,
-  Linking,
-} from "react-native";
+import { StyleSheet, View, Text, StatusBar, Dimensions } from "react-native";
 import ImageAutoHeight from "react-native-image-auto-height";
 import { Link } from "../components/Link";
 

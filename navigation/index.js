@@ -133,6 +133,10 @@ function BottomTabNavigator() {
             <AntDesign name="shoppingcart" size={25} color={color} />
           ),
           tabBarLabel: () => null,
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.accent,
+          },
         }}
       />
       <BottomTab.Screen
