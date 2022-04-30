@@ -9,6 +9,8 @@ import {
 import { DishCard } from "../components/DishCard";
 import { useContext } from "react";
 import { FavouriteContex } from "../App";
+import { EmptyData } from "../components/EmptyData";
+import ImageAutoHeight from "react-native-image-auto-height";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
@@ -16,6 +18,15 @@ const deviceWidth = Dimensions.get("window").width;
 export default function FavouriteScreen({ navigation }) {
   const { favouriteData } = useContext(FavouriteContex);
 
+  if (favouriteData.length == 0)
+    return (
+      <EmptyData text="You don't have any favourites" imageWidth={100}>
+        <ImageAutoHeight
+          source={require("../assets/images/no_favourites.png")}
+          style={styles.empty_img}
+        />
+      </EmptyData>
+    );
   return (
     <View style={styles.container}>
       <FlatList
@@ -61,5 +72,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#FFF",
     paddingHorizontal: 20,
+  },
+  empty_img: {
+    width: 80,
+    height: "auto",
   },
 });
