@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
-import { useState, useContext } from "react";
-import { CartContex } from "../App";
+import { useState, useContext, useEffect } from "react";
+import { BillContex, CartContex } from "../App";
 
 const deviceWidth = Dimensions.get("window").width;
 const cartDishHeight = 80;
@@ -19,6 +19,13 @@ export function CartDish({ name, price, image, id }) {
   const [isdelete, setIsDelete] = useState(false);
   const [dishCount, setDishCount] = useState(1);
   const { cartData, setCartData } = useContext(CartContex);
+
+  useEffect(() => {
+    const index = cartData.findIndex((d) => d.id == id);
+    const newCartData = [...cartData];
+    newCartData[index] = { name, id, image, price, count: dishCount };
+    setCartData(newCartData);
+  }, [dishCount]);
 
   function handleDelete() {
     setIsDelete(true);
