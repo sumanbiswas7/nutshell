@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useContext } from "react";
 import { useTheme } from "@react-navigation/native";
-import { CartContex } from "../App";
+import { CartContex, CurrencyContex } from "../App";
 
 const bottomFeatureSize = 140;
 export function BottomFeature({
@@ -13,6 +13,7 @@ export function BottomFeature({
 }) {
   const { colors } = useTheme();
   const { cartData, setCartData } = useContext(CartContex);
+  const currency = useContext(CurrencyContex);
 
   function handleAddToCart() {
     setIsInCart((p) => !p);
@@ -28,7 +29,9 @@ export function BottomFeature({
 
   return (
     <View style={[styles.bottom_feature, { backgroundColor: colors.accent }]}>
-      <Text style={styles.bottom_price}>₹ {price}</Text>
+      <Text style={styles.bottom_price}>
+        {currency.sign} {price}
+      </Text>
       <View style={styles.line} />
       <TouchableOpacity style={styles.addtocart_btn} onPress={handleAddToCart}>
         <Text style={styles.bottom_addToCart}>

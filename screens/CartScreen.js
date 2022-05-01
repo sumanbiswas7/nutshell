@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
-import { CartContex } from "../App";
+import { CartContex, CurrencyContex } from "../App";
 import { CartDish } from "../components/CartDish";
 import { useTheme } from "@react-navigation/native";
 import { EmptyData } from "../components/EmptyData";
@@ -19,6 +19,7 @@ const deviceWidth = Dimensions.get("window").width;
 const faltListHeight = Dimensions.get("window").height - footerContainerHeight;
 export default function CartScreen({ navigation }) {
   const { cartData } = useContext(CartContex);
+  const currency = useContext(CurrencyContex);
   const [totalBill, setTotalBill] = useState(0);
   const { colors } = useTheme();
 
@@ -68,7 +69,7 @@ export default function CartScreen({ navigation }) {
           <Text
             style={(styles.total_text, { color: colors.text, fontSize: 19 })}
           >
-            {totalBill}/-
+            {currency.sign}&nbsp;{totalBill}
           </Text>
         </View>
         <TouchableOpacity

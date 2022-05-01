@@ -9,7 +9,7 @@ import {
 import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useContext, useEffect } from "react";
-import { BillContex, CartContex } from "../App";
+import { BillContex, CartContex, CurrencyContex } from "../App";
 
 const deviceWidth = Dimensions.get("window").width;
 const cartDishHeight = 80;
@@ -19,6 +19,7 @@ export function CartDish({ name, price, image, id }) {
   const [isdelete, setIsDelete] = useState(false);
   const [dishCount, setDishCount] = useState(1);
   const { cartData, setCartData } = useContext(CartContex);
+  const currency = useContext(CurrencyContex);
 
   useEffect(() => {
     const index = cartData.findIndex((d) => d.id == id);
@@ -56,7 +57,7 @@ export function CartDish({ name, price, image, id }) {
             {name || "name"}
           </Text>
           <Text style={[styles.text, { color: colors.text }]}>
-            ₹ {price || "price"}
+            {currency.sign} {price || "price"}
           </Text>
         </View>
         <View

@@ -3,7 +3,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
 import { useState, useEffect, useContext } from "react";
-import { CartContex } from "../App";
+import { CartContex, CurrencyContex } from "../App";
 
 const cardSize = 150;
 const blankImage =
@@ -19,6 +19,7 @@ export function DishCard({
 }) {
   const { colors } = useTheme();
   const { cartData, setCartData } = useContext(CartContex);
+  const currency = useContext(CurrencyContex);
   const [added, setAdded] = useState(false);
   const [dishTitle, setDishtitle] = useState("");
   const [dishDescription, setDishDescription] = useState("");
@@ -83,7 +84,7 @@ export function DishCard({
           {dishDescription || "N/A"}
         </Text>
         <Text style={[styles.price, { color: colors.dish.price }]}>
-          ₹ {price || "N/A"}
+          {currency.sign} {price || "N/A"}
         </Text>
         <TouchableOpacity
           activeOpacity={0.5}

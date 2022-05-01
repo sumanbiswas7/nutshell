@@ -10,6 +10,7 @@ export const ThemeContex = createContext();
 export const CartContex = createContext();
 export const HomeContex = createContext();
 export const FavouriteContex = createContext();
+export const CurrencyContex = createContext();
 
 export default function App() {
   const [currentTheme, setCurrentTheme] = useState(defaultTheme);
@@ -20,6 +21,7 @@ export default function App() {
   const cartContexvalue = { cartData, setCartData };
   const homeContexValue = { homeData, setHomeData };
   const favouriteContexValue = { favouriteData, setFavouriteData };
+  const currencyContexValue = { name: "INR", sign: "₹" };
 
   let [fontsLoaded] = useFonts({
     "font-1": require("./assets/fonts/JustAnotherHandRegular.ttf"),
@@ -29,17 +31,19 @@ export default function App() {
   }
 
   return (
-    <ThemeContex.Provider value={themeContexValue}>
-      <HomeContex.Provider value={homeContexValue}>
-        <CartContex.Provider value={cartContexvalue}>
-          <FavouriteContex.Provider value={favouriteContexValue}>
-            <NavigationContainer theme={currentTheme}>
-              <RootNavigator />
-            </NavigationContainer>
-          </FavouriteContex.Provider>
-        </CartContex.Provider>
-      </HomeContex.Provider>
-    </ThemeContex.Provider>
+    <CurrencyContex.Provider value={currencyContexValue}>
+      <ThemeContex.Provider value={themeContexValue}>
+        <HomeContex.Provider value={homeContexValue}>
+          <CartContex.Provider value={cartContexvalue}>
+            <FavouriteContex.Provider value={favouriteContexValue}>
+              <NavigationContainer theme={currentTheme}>
+                <RootNavigator />
+              </NavigationContainer>
+            </FavouriteContex.Provider>
+          </CartContex.Provider>
+        </HomeContex.Provider>
+      </ThemeContex.Provider>
+    </CurrencyContex.Provider>
   );
 }
 
