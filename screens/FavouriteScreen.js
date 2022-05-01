@@ -11,12 +11,14 @@ import { useContext } from "react";
 import { FavouriteContex } from "../App";
 import { EmptyData } from "../components/EmptyData";
 import ImageAutoHeight from "react-native-image-auto-height";
+import { useTheme } from "@react-navigation/native";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
 
 export default function FavouriteScreen({ navigation }) {
   const { favouriteData } = useContext(FavouriteContex);
+  const { colors } = useTheme();
 
   if (favouriteData.length == 0)
     return (
@@ -33,7 +35,7 @@ export default function FavouriteScreen({ navigation }) {
         data={favouriteData}
         numColumns={2}
         width={deviceWidth}
-        style={styles.flat_list}
+        style={[styles.flat_list, { backgroundColor: colors.background }]}
         alignItems={favouriteData.length > 1 ? "center" : "flex-start"}
         renderItem={({ item }) => {
           return (

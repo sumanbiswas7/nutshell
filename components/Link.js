@@ -20,7 +20,7 @@ export function Link({ linkUrl, linkTitle, spacingV }) {
       ]}
     >
       <View style={[styles.circle, { backgroundColor: colors.accent }]} />
-      <Text style={styles.link_text}>
+      <Text style={[styles.link_text, { color: colors.text }]}>
         {linkTitle || "linkTitle prop is empty"}
       </Text>
     </TouchableOpacity>

@@ -2,7 +2,7 @@ import { StyleSheet, ActivityIndicator } from "react-native";
 import { RootNavigator } from "./navigation";
 import { createContext, useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { defaultTheme } from "./themes/themes";
+import { darkTheme, defaultTheme } from "./themes/themes";
 import { useFonts } from "expo-font";
 import { AppLoading } from "./components/AppLoading";
 

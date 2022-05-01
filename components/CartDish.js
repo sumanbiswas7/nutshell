@@ -41,11 +41,23 @@ export function CartDish({ name, price, image, id }) {
 
   return (
     <View style={[styles.container, { display: isdelete ? "none" : "flex" }]}>
-      <View style={styles.main_container}>
+      <View
+        style={[
+          styles.main_container,
+          {
+            borderColor: colors.cartDish.border,
+            backgroundColor: colors.cartDish.background,
+          },
+        ]}
+      >
         <Image source={{ uri: image || "" }} style={styles.dish_img} />
         <View style={styles.dish_info_container}>
-          <Text style={styles.text}>{name || "name"}</Text>
-          <Text style={styles.text}>₹ {price || "price"}</Text>
+          <Text style={[styles.text, { color: colors.text }]}>
+            {name || "name"}
+          </Text>
+          <Text style={[styles.text, { color: colors.text }]}>
+            ₹ {price || "price"}
+          </Text>
         </View>
         <View
           style={[styles.counter_container, { backgroundColor: colors.accent }]}

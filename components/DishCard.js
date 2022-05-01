@@ -65,7 +65,10 @@ export function DishCard({
       <TouchableOpacity
         onPress={() => navigation.navigate("SingleDish", { dish, setAdded })}
         activeOpacity={0.7}
-        style={styles.bottom_container}
+        style={[
+          styles.bottom_container,
+          { backgroundColor: colors.dish.background },
+        ]}
       >
         <Image
           source={{
@@ -73,9 +76,15 @@ export function DishCard({
           }}
           style={styles.image}
         />
-        <Text style={styles.title}>{dishTitle || "N/A"}</Text>
-        <Text style={styles.description}>{dishDescription || "N/A"}</Text>
-        <Text style={styles.price}>₹ {price || "N/A"}</Text>
+        <Text style={[styles.title, { color: colors.dish.title }]}>
+          {dishTitle || "N/A"}
+        </Text>
+        <Text style={[styles.description, { color: colors.dish.description }]}>
+          {dishDescription || "N/A"}
+        </Text>
+        <Text style={[styles.price, { color: colors.dish.price }]}>
+          ₹ {price || "N/A"}
+        </Text>
         <TouchableOpacity
           activeOpacity={0.5}
           style={[styles.add_circle, { backgroundColor: colors.accent }]}

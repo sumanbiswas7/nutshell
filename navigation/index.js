@@ -39,6 +39,7 @@ export function RootNavigator() {
           headerStyle: {
             backgroundColor: colors.accent,
           },
+          headerTintColor: colors.headerText,
         }}
       />
       <Stack.Screen
@@ -51,6 +52,7 @@ export function RootNavigator() {
           headerStyle: {
             backgroundColor: colors.accent,
           },
+          headerTintColor: colors.headerText,
         }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
@@ -70,9 +72,12 @@ function BottomTabNavigator() {
       initialRouteName="home"
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { backgroundColor: colors.tabBarBackground, height: 60 },
-        tabBarActiveTintColor: colors.tabBarActiveTint,
-        tabBarInactiveTintColor: colors.tabBarInactiveTint,
+        tabBarStyle: {
+          backgroundColor: colors.bottomTab.background,
+          height: 60,
+        },
+        tabBarActiveTintColor: colors.bottomTab.active,
+        tabBarInactiveTintColor: colors.bottomTab.inactive,
       }}
     >
       <BottomTab.Screen
@@ -122,6 +127,7 @@ function BottomTabNavigator() {
           headerStyle: {
             backgroundColor: colors.accent,
           },
+          headerTintColor: colors.headerText,
         }}
       />
       <BottomTab.Screen
@@ -137,6 +143,7 @@ function BottomTabNavigator() {
           headerStyle: {
             backgroundColor: colors.accent,
           },
+          headerTintColor: colors.headerText,
         }}
       />
       <BottomTab.Screen
@@ -152,6 +159,7 @@ function BottomTabNavigator() {
           headerStyle: {
             backgroundColor: colors.accent,
           },
+          headerTintColor: colors.headerText,
         }}
       />
     </BottomTab.Navigator>

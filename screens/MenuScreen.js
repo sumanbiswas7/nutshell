@@ -1,17 +1,19 @@
 import { StyleSheet, View, Text, StatusBar, Dimensions } from "react-native";
 import ImageAutoHeight from "react-native-image-auto-height";
 import { Link } from "../components/Link";
+import { useTheme } from "@react-navigation/native";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
 export default function MenuScreen({ navigation }) {
+  const { colors } = useTheme();
   return (
     <View style={styles.container}>
       <ImageAutoHeight
         source={require("../assets/images/full_logo.png")}
         style={styles.full_logo}
       />
-      <Text style={styles.text}>
+      <Text style={[styles.text, { color: colors.dish.description }]}>
         The cheapest and simplest way to make your own fully customizable
         restaurant menu app.
       </Text>
@@ -33,7 +35,9 @@ export default function MenuScreen({ navigation }) {
           linkTitle="My Website"
         />
       </View>
-      <Text style={styles.copyright_text}>&copy; Suman Biswas, 2022</Text>
+      <Text style={[styles.copyright_text, { color: colors.dish.description }]}>
+        &copy; Suman Biswas, 2022
+      </Text>
     </View>
   );
 }

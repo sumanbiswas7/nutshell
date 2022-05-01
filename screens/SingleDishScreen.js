@@ -95,8 +95,14 @@ export function SingleDishScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
       <View style={styles.info_container}>
-        <Text style={styles.dish_name}>{dish.name}</Text>
-        <Text style={styles.dish_description}>{dish.description}</Text>
+        <Text style={[styles.dish_name, { color: colors.dish.title }]}>
+          {dish.name}
+        </Text>
+        <Text
+          style={[styles.dish_description, { color: colors.dish.description }]}
+        >
+          {dish.description}
+        </Text>
       </View>
       <BottomFeature
         price={dish.price}

@@ -62,10 +62,14 @@ export default function CartScreen({ navigation }) {
         }}
       />
       <View style={[styles.footer_container]}>
-        <View style={styles.total_line} />
+        <View style={[styles.total_line, { backgroundColor: colors.text }]} />
         <View style={styles.total_text_container}>
-          <Text style={styles.total_text}>Total</Text>
-          <Text style={styles.total_text}>{totalBill}/-</Text>
+          <Text style={[styles.total_text, { color: colors.text }]}>Total</Text>
+          <Text
+            style={(styles.total_text, { color: colors.text, fontSize: 19 })}
+          >
+            {totalBill}/-
+          </Text>
         </View>
         <TouchableOpacity
           style={[styles.checkout_btn, { backgroundColor: colors.accent }]}
