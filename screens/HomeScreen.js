@@ -19,6 +19,7 @@ import { CartContex, FavouriteContex, HomeContex } from "../App";
 import { DISHES_QUERY, client } from "../hooks/useRequest";
 import { DishTypeButton } from "../components/DishTypeButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DISH_TYPES } from "../global/constants";
 
 const headerMarginTop = StatusBar.currentHeight;
 const deviceWidth = Dimensions.get("window").width;
@@ -34,12 +35,7 @@ export default function HomeScreen({ navigation }) {
   const [dishesByType, setDishesByType] = useState([]);
   const [dishTypes, setDishTypes] = useState({
     activeType: { id: 2, type: "Main" },
-    types: [
-      { id: 1, type: "Starter" },
-      { id: 2, type: "Main" },
-      { id: 3, type: "Drinks" },
-      { id: 4, type: "Dessert" },
-    ],
+    types: DISH_TYPES,
   });
   useEffect(() => {
     client.request(DISHES_QUERY).then((data) => {
@@ -70,6 +66,7 @@ export default function HomeScreen({ navigation }) {
 
   function handleDishTypeClick(type, id) {
     setDishTypes({ ...dishTypes, activeType: { id, type } });
+
     const filterByTypeArr = homeData.filter(
       (dish) => dish.type == type.toLowerCase()
     );
@@ -105,12 +102,12 @@ export default function HomeScreen({ navigation }) {
               { backgroundColor: colors.background },
             ]}
             showsHorizontalScrollIndicator={false}
-            justifyContent="center"
             alignItems="center"
             renderItem={({ item }) => {
               return (
                 <DishTypeButton
-                  title={item.type}
+                  title={item.title}
+                  slug={item.slug}
                   onPress={handleDishTypeClick}
                   id={item.id}
                   active={setClass(item.id)}

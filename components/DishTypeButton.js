@@ -1,11 +1,11 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { useTheme } from "@react-navigation/native";
 
-export function DishTypeButton({ title, onPress, id, active }) {
+export function DishTypeButton({ title, slug, onPress, id, active }) {
   const { colors } = useTheme();
   return (
     <TouchableOpacity
-      onPress={() => onPress(title, id)}
+      onPress={() => onPress(slug, id)}
       style={[
         styles.dish_type_btn,
         {

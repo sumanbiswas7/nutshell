@@ -1,10 +1,10 @@
-import { StyleSheet, ActivityIndicator } from "react-native";
+import { StyleSheet } from "react-native";
 import { RootNavigator } from "./navigation";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { darkTheme, defaultTheme } from "./themes/themes";
 import { useFonts } from "expo-font";
 import { AppLoading } from "./components/AppLoading";
+import { CURRENCY, THEME } from "./global/constants";
 
 export const ThemeContex = createContext();
 export const CartContex = createContext();
@@ -13,7 +13,7 @@ export const FavouriteContex = createContext();
 export const CurrencyContex = createContext();
 
 export default function App() {
-  const [currentTheme, setCurrentTheme] = useState(defaultTheme);
+  const [currentTheme, setCurrentTheme] = useState(THEME);
   const [cartData, setCartData] = useState([]);
   const [homeData, setHomeData] = useState([]);
   const [favouriteData, setFavouriteData] = useState([]);
@@ -21,7 +21,7 @@ export default function App() {
   const cartContexvalue = { cartData, setCartData };
   const homeContexValue = { homeData, setHomeData };
   const favouriteContexValue = { favouriteData, setFavouriteData };
-  const currencyContexValue = { name: "INR", sign: "₹" };
+  const currencyContexValue = CURRENCY;
 
   let [fontsLoaded] = useFonts({
     "font-1": require("./assets/fonts/JustAnotherHandRegular.ttf"),
