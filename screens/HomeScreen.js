@@ -12,7 +12,7 @@ import { StatusBar as ESB } from "expo-status-bar";
 import { useTheme } from "@react-navigation/native";
 import { useState, useEffect, useContext } from "react";
 import { HeaderLogo } from "../components/HeaderLogo";
-import { SearchBox } from "../components/SearchBox";
+import { Fold } from "react-native-animated-spinkit";
 import { DishCard } from "../components/DishCard";
 import { AppLoading } from "../components/AppLoading";
 import { CartContex, FavouriteContex, HomeContex } from "../App";
@@ -33,6 +33,7 @@ export default function HomeScreen({ navigation }) {
   const { setFavouriteData } = useContext(FavouriteContex);
   const [isLoading, setIsLoading] = useState(true);
   const [dishesByType, setDishesByType] = useState([]);
+  const [slowLoader, setSlowLoader] = useState(false);
   const [dishTypes, setDishTypes] = useState({
     activeType: { id: 2, type: "Main" },
     types: DISH_TYPES,
@@ -66,11 +67,12 @@ export default function HomeScreen({ navigation }) {
 
   function handleDishTypeClick(type, id) {
     setDishTypes({ ...dishTypes, activeType: { id, type } });
-
+    setSlowLoader(true);
     const filterByTypeArr = homeData.filter(
       (dish) => dish.type == type.toLowerCase()
     );
     setDishesByType(filterByTypeArr);
+    setSlowLoader(false);
   }
   function setClass(id) {
     if (dishTypes.activeType?.id == id) return true;
@@ -116,26 +118,32 @@ export default function HomeScreen({ navigation }) {
             }}
           />
         </View>
-        <FlatList
-          data={dishesByType}
-          numColumns={2}
-          width={deviceWidth}
-          style={styles.flat_list}
-          alignItems={dishesByType.length > 1 ? "center" : "flex-start"}
-          renderItem={({ item }) => {
-            return (
-              <DishCard
-                image={item.image}
-                title={item.name}
-                description={item.description}
-                price={item.price}
-                id={item.id}
-                navigation={navigation}
-                dish={item}
-              />
-            );
-          }}
-        />
+        {slowLoader ? (
+          <View style={styles.slowloader_container}>
+            <Fold size={25} color={colors.accent} />
+          </View>
+        ) : (
+          <FlatList
+            data={dishesByType}
+            numColumns={2}
+            width={deviceWidth}
+            style={styles.flat_list}
+            alignItems={dishesByType.length > 1 ? "center" : "flex-start"}
+            renderItem={({ item }) => {
+              return (
+                <DishCard
+                  image={item.image}
+                  title={item.name}
+                  description={item.description}
+                  price={item.price}
+                  id={item.id}
+                  navigation={navigation}
+                  dish={item}
+                />
+              );
+            }}
+          />
+        )}
       </View>
       <ESB backgroundColor={colors.accent} />
     </>
@@ -191,5 +199,10 @@ const styles = StyleSheet.create({
     width: deviceWidth,
     backgroundColor: "#FFF",
     paddingVertical: 10,
+  },
+  slowloader_container: {
+    height: flatListHeight,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
