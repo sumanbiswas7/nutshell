@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { AppLoading } from "./components/AppLoading";
 import { CURRENCY, THEME } from "./global/constants";
+import { MenuProvider } from "react-native-popup-menu";
 
 export const ThemeContex = createContext();
 export const CartContex = createContext();
@@ -31,19 +32,21 @@ export default function App() {
   }
 
   return (
-    <CurrencyContex.Provider value={currencyContexValue}>
-      <ThemeContex.Provider value={themeContexValue}>
-        <HomeContex.Provider value={homeContexValue}>
-          <CartContex.Provider value={cartContexvalue}>
-            <FavouriteContex.Provider value={favouriteContexValue}>
-              <NavigationContainer theme={currentTheme}>
-                <RootNavigator />
-              </NavigationContainer>
-            </FavouriteContex.Provider>
-          </CartContex.Provider>
-        </HomeContex.Provider>
-      </ThemeContex.Provider>
-    </CurrencyContex.Provider>
+    <MenuProvider>
+      <CurrencyContex.Provider value={currencyContexValue}>
+        <ThemeContex.Provider value={themeContexValue}>
+          <HomeContex.Provider value={homeContexValue}>
+            <CartContex.Provider value={cartContexvalue}>
+              <FavouriteContex.Provider value={favouriteContexValue}>
+                <NavigationContainer theme={currentTheme}>
+                  <RootNavigator />
+                </NavigationContainer>
+              </FavouriteContex.Provider>
+            </CartContex.Provider>
+          </HomeContex.Provider>
+        </ThemeContex.Provider>
+      </CurrencyContex.Provider>
+    </MenuProvider>
   );
 }
 

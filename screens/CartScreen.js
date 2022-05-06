@@ -13,6 +13,7 @@ import { CartDish } from "../components/CartDish";
 import { useTheme } from "@react-navigation/native";
 import { EmptyData } from "../components/EmptyData";
 import ImageAutoHeight from "react-native-image-auto-height";
+import { PaymentMethod } from "../components/Modals/PaymentMethod";
 
 const footerContainerHeight = 150;
 const deviceWidth = Dimensions.get("window").width;
@@ -72,11 +73,7 @@ export default function CartScreen({ navigation }) {
             {currency.sign}&nbsp;{totalBill}
           </Text>
         </View>
-        <TouchableOpacity
-          style={[styles.checkout_btn, { backgroundColor: colors.accent }]}
-        >
-          <Text>CHECKOUT</Text>
-        </TouchableOpacity>
+        <PaymentMethod />
       </View>
     </View>
   );
@@ -109,12 +106,6 @@ const styles = StyleSheet.create({
   },
   total_text: {
     fontSize: 19,
-  },
-  checkout_btn: {
-    marginTop: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    borderRadius: 20,
   },
   empty_img: {
     width: 150,
