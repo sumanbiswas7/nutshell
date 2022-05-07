@@ -9,8 +9,9 @@ import {
 import { useTheme } from "@react-navigation/native";
 import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import ImageAutoHeight from "react-native-image-auto-height";
 
-const Button = () => {
+const CardButton = () => {
   return (
     <TouchableOpacity style={styles.btn_container}>
       <AntDesign name="creditcard" size={24} color="white" />
@@ -18,9 +19,36 @@ const Button = () => {
     </TouchableOpacity>
   );
 };
+const ImgButton = ({
+  src,
+  onPress,
+  imgSize,
+  background,
+  borderColor,
+  borderWidth,
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        styles.btn_container,
+        {
+          backgroundColor: background || "#000",
+          borderColor: borderColor,
+          borderWidth: borderWidth,
+        },
+      ]}
+    >
+      <ImageAutoHeight
+        source={src}
+        style={[styles.btn_image, { width: imgSize || 100, height: "auto" }]}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const deviceWidth = Dimensions.get("window").width;
-const modalSize = deviceWidth - 50;
+const modalSize = deviceWidth - 60;
 export function PaymentMethod() {
   const { colors } = useTheme();
   const [modal, setModal] = useState(false);
@@ -44,14 +72,24 @@ export function PaymentMethod() {
           style={styles.centeredView}
           activeOpacity={1}
         >
-          <View
+          <TouchableOpacity
+            activeOpacity={1}
             style={[styles.modalView, { backgroundColor: colors.background }]}
           >
             <View style={styles.pay_text_container}>
               <Text style={styles.pay_text}>PAYMENT METHOD</Text>
             </View>
             <View style={styles.btn_view}>
-              <Button />
+              <CardButton />
+              <ImgButton
+                src={require("../../assets/images/buttons/phonepe_btn.png")}
+                background="#FFF"
+                borderColor="#5F259F"
+                borderWidth={1}
+              />
+              <ImgButton
+                src={require("../../assets/images/buttons/gpay_btn.png")}
+              />
             </View>
             <TouchableOpacity
               style={[
@@ -61,7 +99,7 @@ export function PaymentMethod() {
             >
               <Text style={{ fontSize: 17 }}>CANCEL</Text>
             </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
 
@@ -101,16 +139,17 @@ const styles = StyleSheet.create({
   },
   pay_text_container: {
     height: modalSize / 4,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   pay_text: {
     fontSize: modalSize / 16,
     width: "100%",
     textAlign: "center",
+    fontWeight: "600",
+    letterSpacing: -0.2,
   },
   btn_view: {
-    backgroundColor: "#d22",
     width: "100%",
     height: modalSize * 1.2 - (modalSize / 4 + modalSize / 6.5),
     alignItems: "center",
@@ -120,14 +159,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000",
+    backgroundColor: "#1D1D1D",
     width: 150,
     height: 50,
     borderRadius: 10,
+    marginVertical: 10,
   },
   text_btn: {
     color: "#FFF",
     marginLeft: 10,
+    fontSize: 17,
+    fontWeight: "300",
   },
   cancel_container: {
     position: "absolute",
@@ -136,5 +178,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: modalSize / 6.5,
+  },
+  btn_image: {
+    height: "auto",
   },
 });
